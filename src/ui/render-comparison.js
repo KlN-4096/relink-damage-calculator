@@ -21,7 +21,9 @@ export function renderComparison(compare) {
     row('Echo 层数', a.build.echoLayers, b.build.echoLayers),
     row('单位倍率 Raw 主体期望', a.raw.mainExpected, b.raw.mainExpected),
     row('单位倍率 Raw 额外伤害', a.raw.supplementalExpected, b.raw.supplementalExpected),
-    row('单位倍率 Raw 总期望', a.raw.totalExpected, b.raw.totalExpected)
+    row('单位倍率 Raw 总期望 · 未封顶', a.raw.totalExpected, b.raw.totalExpected),
+    row('单击绝对上限', a.raw.capAbsolute, b.raw.capAbsolute),
+    row('封顶后 Raw 总期望 · 实战', a.raw.cappedTotal, b.raw.cappedTotal)
   ].join('');
   const diffs = compare.sourceDiffs.map(item => `<tr><th>${escapeHtml(item.source)}</th><td>${escapeHtml(item.a)}</td><td>${escapeHtml(item.b)}</td></tr>`).join('');
   const capScaleA = compare.capMultipliers.A * 100;

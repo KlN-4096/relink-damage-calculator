@@ -197,7 +197,14 @@ summary:hover { color: var(--ink); }
 .raw-result-card { min-width: 0; padding: 14px; background: var(--surface-alt); border-left: 3px solid var(--teal); border-radius: 0 var(--radius) var(--radius) 0; }
 .raw-result-card > header { margin-bottom: 10px; display: grid; gap: 3px; }
 .raw-result-card > header span, .raw-result-card > small { color: var(--muted); font-size: .72rem; }
-.raw-result-card > header strong { overflow-wrap: anywhere; font: 700 1.25rem Consolas, monospace; }
+.raw-result-card > header strong { overflow-wrap: anywhere; font: 700 1.25rem Consolas, monospace; color: var(--teal); }
+.raw-uncapped { margin: 0 0 10px; padding: 6px 10px; display: flex; align-items: baseline; gap: 8px; background: var(--surface); border-radius: 6px; }
+.raw-uncapped span, .raw-uncapped small { color: var(--muted); font-size: .72rem; }
+.raw-uncapped b { font: 700 .85rem Consolas, monospace; }
+.cap-hit, .cap-free { margin-left: 4px; padding: 1px 5px; font-style: normal; font-size: .66rem; font-weight: 700; border-radius: 3px; white-space: nowrap; }
+.cap-hit { color: var(--amber); background: var(--amber-soft); border: 1px solid rgba(229, 167, 74, .3); }
+.cap-free { color: var(--muted); background: var(--surface-alt); border: 1px solid var(--line); }
+.hit-weight { margin-left: 4px; padding: 1px 5px; font-style: normal; font-size: .66rem; font-weight: 700; border-radius: 3px; white-space: nowrap; color: var(--blue); background: var(--blue-soft); border: 1px solid rgba(91, 155, 213, .3); }
 .raw-result-card dl { margin: 0 0 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border-radius: 6px; overflow: hidden; }
 .raw-result-card dl div { min-width: 0; padding: 8px 10px; display: grid; gap: 3px; background: var(--surface); }
 .raw-result-card dt { color: var(--muted); font-size: .72rem; }

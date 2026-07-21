@@ -1,4 +1,7 @@
 export const SUPPLEMENTAL_RATIO = 0.2;
+// 1.0 倍率单段动作的基础伤害上限（2.0.2 chara_damage_limit 标准曲线；高倍率段的
+// 单位上限略高于线性，此处取单位基准招做封顶口径）。
+export const UNIT_BASE_CAP = 9999;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, Number(value) || 0));
 
@@ -22,9 +25,20 @@ export function calculateRawDamage(input) {
   const echoLayers = Math.max(0, Number(input.echoLayers) || 0);
   const supplementalRate = clamp(input.supplementalRate, 0, 1);
   const supplementalExpected = mainExpected * SUPPLEMENTAL_RATIO * (echoLayers + supplementalRate);
+  const capMultiplierValue = Number(input.capMultiplier);
+  const capMultiplier = capMultiplierValue > 0 ? capMultiplierValue : Number.POSITIVE_INFINITY;
+  const capAbsolute = Number.isFinite(capMultiplier) ? UNIT_BASE_CAP * capMultiplier : Number.POSITIVE_INFINITY;
+  const cappedNonCrit = Math.min(rawNonCrit, capAbsolute);
+  const cappedCrit = Math.min(rawCrit, capAbsolute);
+  const cappedMain = (1 - critRate) * cappedNonCrit + critRate * cappedCrit;
+  const cappedSupplemental = cappedMain * SUPPLEMENTAL_RATIO * (echoLayers + supplementalRate);
   return {
     rawNonCrit, rawCrit, mainExpected, supplementalExpected,
     totalExpected: mainExpected + supplementalExpected,
+    capMultiplier: Number.isFinite(capMultiplier) ? capMultiplier : 0,
+    capAbsolute, cappedNonCrit, cappedCrit, cappedMain, cappedSupplemental,
+    cappedTotal: cappedMain + cappedSupplemental,
+    capHit: { nonCrit: rawNonCrit > capAbsolute, crit: rawCrit > capAbsolute },
     attack, normalMultiplier, outside, critRate, critMultiplier,
     supplementalRate, echoLayers
   };

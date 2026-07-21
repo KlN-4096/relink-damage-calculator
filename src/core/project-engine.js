@@ -38,7 +38,8 @@ export function calculateRawBuild(build, summons) {
     critRate: calculated.crit.probability,
     critMultiplier: calculated.crit.multiplier,
     supplementalRate: calculated.supplementaryRate,
-    echoLayers: calculated.echoLayers
+    echoLayers: calculated.echoLayers,
+    capMultiplier: Math.max(0, 1 + calculated.cap.additivePct / 100) * calculated.cap.outside
   });
   return { build: calculated, raw, context: RAW_CONTEXT };
 }
@@ -91,6 +92,8 @@ export function compareProjectBuilds(character, summons = {}) {
     B: b,
     delta: totalB - totalA,
     relative: totalA ? totalB / totalA - 1 : 0,
+    cappedDelta: b.raw.cappedTotal - a.raw.cappedTotal,
+    cappedRelative: a.raw.cappedTotal ? b.raw.cappedTotal / a.raw.cappedTotal - 1 : 0,
     capMarginal: capMultiplierA ? capMultiplierB / capMultiplierA - 1 : 0,
     capMultipliers: { A: capMultiplierA, B: capMultiplierB },
     sourceDiffs: diffBuildSources(character.builds.A, character.builds.B, summonA, summonB)
