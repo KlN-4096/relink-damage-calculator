@@ -1,0 +1,25 @@
+# Local editor and agent state
+.claude/
+.idea/
+.serena/
+.vscode/
+
+# Research, verification, and extraction material
+cankao/
+scripts/
+tests/
+/actions.js
+/package.json
+
+# Runtime caches and local data
+node_modules/
+coverage/
+__pycache__/
+*.py[cod]
+*.log
+SaveData*.dat
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini

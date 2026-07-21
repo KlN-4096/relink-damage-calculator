@@ -1,0 +1,77 @@
+@media (max-width: 1220px) {
+  .workspace-grid { grid-template-columns: 1fr; }
+  .stat-strip { grid-template-columns: repeat(3, 1fr); }
+  .build-toolbar { grid-template-columns: auto 1fr; }
+  .build-context { grid-column: 1 / -1; text-align: left; }
+  .factor-fields { grid-template-columns: minmax(100px, 1fr) 68px minmax(100px, 1fr) 68px; }
+  .summon-fields { grid-template-columns: minmax(100px, 1.2fr) minmax(90px, 1fr) 68px minmax(120px, 1fr) 80px; }
+  .summon-fields label:nth-child(4), .summon-fields label:nth-child(5) { grid-column: auto; }
+}
+
+@media (max-width: 900px) {
+  .app-header { align-items: start; flex-direction: column; gap: 14px; }
+  .character-context { width: 100%; min-width: 0; grid-template-columns: auto minmax(0, 1fr) auto; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .comparison-grid, .data-grid { grid-template-columns: 1fr; }
+  .comparison-grid > :last-child, .data-grid > :last-child { grid-column: auto; }
+  .build-toolbar { grid-template-columns: 1fr; }
+  .build-switch button { flex: 1; }
+  .build-actions { flex-wrap: wrap; }
+  .blessing-fields { grid-template-columns: minmax(120px, 1fr) 76px minmax(120px, 1fr) 76px; }
+  .mastery-list { grid-template-columns: 1fr; }
+  .character-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cap-source-columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 680px) {
+  .app-header { min-height: 0; padding: 15px 13px; }
+  .brand-block h1 { font-size: 1.45rem; }
+  .character-context { grid-template-columns: 1fr; }
+  .page-tabs { padding: 0; }
+  .page-tabs button { min-width: 0; flex: 1; padding-inline: 6px; font-size: .74rem; white-space: nowrap; }
+  main { padding: 8px 7px 30px; }
+  .metric-grid { gap: 5px; }
+  .metric-card { min-height: 88px; padding: 9px; }
+  .metric-card strong { font-size: 1.13rem; }
+  .surface { padding: 14px 10px 16px; }
+  .workspace-grid { gap: 9px; }
+  .build-switch { width: 100%; }
+  .build-switch button { min-width: 0; }
+  .build-actions button { flex: 1 1 130px; }
+  .build-context { line-height: 1.5; }
+  .stat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-metric[open] { grid-column: 1 / -1; }
+  .detail-grid { grid-template-columns: 1fr; }
+  .detail-grid .wide { grid-column: auto; }
+  .inner-tabs { overflow-x: auto; border-radius: 6px; }
+  .inner-tabs button { min-width: 0; flex: 1; padding-inline: 8px; font-size: .76rem; }
+  .equipment-row { grid-template-columns: 24px minmax(0, 1fr) auto auto; align-items: start; }
+  .equipment-row > .source-tag { grid-column: 2; width: fit-content; }
+  .equipment-row > button:not(.icon-button) { grid-column: 3; grid-row: 1; }
+  .equipment-row > .icon-button { grid-column: 4; grid-row: 1; }
+  .factor-fields, .summon-fields { grid-template-columns: minmax(0, 1fr) 60px; }
+  .factor-fields label:nth-child(3), .summon-fields label:nth-child(4) { grid-column: 1; }
+  .summon-fields label:nth-child(5) { grid-column: 2; }
+  .blessing-fields { grid-template-columns: minmax(0, 1fr) 68px; }
+  .mastery-summary { grid-template-columns: repeat(2, 1fr); }
+  .limit-list div { grid-template-columns: 54px minmax(0, 1fr) 72px 18px; }
+  .raw-result-grid, .raw-formula > div { grid-template-columns: 1fr; }
+  .cap-equation { grid-template-columns: 1fr auto; }
+  .cap-equation i { grid-column: 1 / -1; transform: rotate(90deg); }
+  .data-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .character-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .inventory-item { grid-template-columns: 1fr; gap: 4px; }
+  #toast { left: 8px; right: 8px; bottom: 8px; max-width: none; }
+}
+
+@media (max-width: 390px) {
+  .character-list { grid-template-columns: 1fr; }
+  .stat-strip { grid-template-columns: 1fr; }
+  .stat-metric[open] { grid-column: 1 / -1; }
+  .build-switch button { grid-template-columns: 24px 1fr; }
+  .section-heading { align-items: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}

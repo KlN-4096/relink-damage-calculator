@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>Relink 全角色伤害计算器</title>
+  <link rel="stylesheet" href="assets/styles/styles.css">
+  <link rel="stylesheet" href="assets/styles/responsive.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-block">
+      <p class="eyebrow">GRANBLUE FANTASY: RELINK · 2.0.2</p>
+      <h1>全角色伤害计算器</h1>
+      <p>28 名角色 · 存档只读 · 完整 A / B 配装</p>
+    </div>
+    <div class="character-context">
+      <label for="characterSelect">当前角色</label>
+      <select id="characterSelect"></select>
+      <span id="saveBadge" class="status-badge">未导入存档</span>
+    </div>
+  </header>
+
+  <nav class="page-tabs" aria-label="主功能" role="tablist">
+    <button type="button" role="tab" data-page="workspace" aria-selected="true">配装工作区</button>
+    <button type="button" role="tab" data-page="actions" aria-selected="false">基础伤害</button>
+    <button type="button" role="tab" data-page="comparison" aria-selected="false">对比结果</button>
+    <button type="button" role="tab" data-page="data" aria-selected="false">数据管理</button>
+  </nav>
+
+  <main>
+    <section id="summaryMetrics" class="metric-grid" aria-label="A B 对比摘要"></section>
+
+    <section id="workspacePage" class="page-panel" data-page-panel="workspace">
+      <div id="buildToolbar" class="build-toolbar"></div>
+      <div class="workspace-grid">
+        <section class="surface" aria-labelledby="buildOverviewTitle">
+          <div class="section-heading"><div><p class="section-index">01</p><h2 id="buildOverviewTitle">角色与武器</h2></div><span id="buildSourceBadge"></span></div>
+          <div id="buildOverview"></div>
+        </section>
+        <section class="surface" aria-labelledby="equipmentTitle">
+          <div class="section-heading"><div><p class="section-index">02</p><h2 id="equipmentTitle">装备与专精</h2></div><output id="equipmentCount"></output></div>
+          <div class="inner-tabs" role="tablist" aria-label="装备类型">
+            <button type="button" data-equip-tab="factors" aria-selected="true">因子</button>
+            <button type="button" data-equip-tab="blessing" aria-selected="false">祝福</button>
+            <button type="button" data-equip-tab="summons" aria-selected="false">召唤石</button>
+            <button type="button" data-equip-tab="mastery" aria-selected="false">专精</button>
+          </div>
+          <div id="equipmentEditor"></div>
+        </section>
+      </div>
+    </section>
+
+    <section id="actionsPage" class="page-panel" data-page-panel="actions" hidden>
+      <section class="surface" aria-labelledby="rawTitle">
+        <div class="section-heading"><div><p class="section-index">03</p><h2 id="rawTitle">配装基础伤害</h2></div><output id="rawSummary"></output></div>
+        <div id="rawResults"></div>
+      </section>
+    </section>
+
+    <section id="comparisonPage" class="page-panel" data-page-panel="comparison" hidden>
+      <div id="comparisonContent"></div>
+    </section>
+
+    <section id="dataPage" class="page-panel" data-page-panel="data" hidden>
+      <div id="dataContent"></div>
+    </section>
+  </main>
+
+  <dialog id="inventoryDialog" aria-labelledby="inventoryDialogTitle">
+    <form method="dialog" class="dialog-shell">
+      <div class="dialog-heading">
+        <div><p class="eyebrow">SAVE INVENTORY</p><h2 id="inventoryDialogTitle">选择库存装备</h2></div>
+        <button type="submit" class="icon-button" aria-label="关闭">×</button>
+      </div>
+      <label class="search-field">搜索库存<input id="inventorySearch" type="search" autocomplete="off" placeholder="名称、词条或槽位"></label>
+      <div id="inventoryResults" class="inventory-results"></div>
+    </form>
+  </dialog>
+
+  <input type="file" id="saveFile" accept=".dat,application/octet-stream" hidden>
+  <input type="file" id="projectFile" accept=".json,application/json" hidden>
+  <datalist id="traitNameList"></datalist>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/app.bundle.js"></script>
+</body>
+</html>
