@@ -9,6 +9,7 @@
 }
 
 @media (max-width: 900px) {
+  .metric-grid { position: static; padding: 0; background: none; }
   .app-header { align-items: start; flex-direction: column; gap: 14px; }
   .character-context { width: 100%; min-width: 0; grid-template-columns: auto minmax(0, 1fr) auto; }
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -73,5 +74,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
