@@ -12,6 +12,7 @@ const RAW_CONTEXT = Object.freeze({
   critDamageBonusPct: 0,
   skillCount: 4,
   weakPoint: false,
+  weakElement: false,
   comboActive: false,
   conditionalKeys: Object.freeze([]),
   smallCrabBuffActive: false

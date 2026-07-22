@@ -2,7 +2,7 @@ const NUMERIC_FIELDS = [
   'flatHp', 'flatAttack', 'attackPct', 'hpPct', 'defensePct', 'critRatePct',
   'critDamagePct', 'genericCapPct', 'normalCapPct', 'skillCapPct', 'sbaCapPct',
   'actionDamagePct', 'actionCapPct', 'skillDamagePct', 'sbaDamagePct',
-  'weakPointDamagePct', 'stunFlat', 'stunPct'
+  'weakElementDamagePct', 'stunFlat', 'stunPct'
 ];
 
 // Nodes whose effects never enter the stat panel (cooldowns, resistances,
@@ -76,9 +76,10 @@ function applyGeneric(summary, node, part, context) {
   if (part.subType === 1) return add(summary, 'genericCapPct', value, node);
   if (part.subType === 12) return add(summary, 'critDamagePct', value, node);
   if (part.subType === 14) {
+    // EX 阶专精技能“对弱点属性敌人造成的伤害+10%”：属性克制条件，非弱点部位。
     if (!value) return false;
-    if (!context.weakPoint) return 'inactive:未命中弱点部位或从背后攻击';
-    return add(summary, 'weakPointDamagePct', value, node);
+    if (!context.weakElement) return 'inactive:敌人非弱点属性（装备属性克制转换后恒定生效）';
+    return add(summary, 'weakElementDamagePct', value, node);
   }
   return false;
 }
@@ -146,7 +147,7 @@ export function summarizeMastery(nodes = [], options = {}) {
     conditionalActive: Boolean(options.conditionalActive),
     conditionalKeys: new Set(options.conditionalKeys || []),
     hasExplicitConditionalKeys,
-    weakPoint: Boolean(options.weakPoint)
+    weakElement: Boolean(options.weakElement)
   };
   for (const node of nodes) {
     const statuses = (node.parts || []).map(part => applyPart(summary, node, part, context));

@@ -231,7 +231,7 @@ function calculateActionMultiplier(levels, context, mastery, direct) {
   if (less) { multiplier *= 1 + less / 100; applied.push('身无长技'); }
   const manual = Number.isFinite(Number(context.actionMultiplier)) ? Number(context.actionMultiplier) : 1;
   const tagsSet = new Set(tags);
-  const masteryPct = mastery.actionDamagePct + mastery.weakPointDamagePct
+  const masteryPct = mastery.actionDamagePct
     + (tagsSet.has('skill') ? mastery.skillDamagePct + direct.skillDamagePct : 0)
     + (tagsSet.has('sba') ? mastery.sbaDamagePct + direct.sbaDamagePct : 0);
   multiplier *= Math.max(0, manual) * Math.max(0, 1 + masteryPct / 100);
@@ -296,17 +296,31 @@ function calculateCap(levels, actualLevels, sources, synergy, config, weapon, hp
   add('动作额外上限', Number(context.actionCapPct) || 0, '技能页“手动上限”');
   const external = Number.isFinite(Number(context.externalCapMultiplier)) ? Number(context.externalCapMultiplier) : 1;
   const warElemental = has(levels, '属性克制转换');
+  const weakElement = warElemental || Boolean(context.weakElement);
   if (warElemental) applied.push('属性克制转换');
+  // 有利属性 1.2 与 EX 阶专精技能“对弱点属性敌人造成的伤害+10%”同区相加（社区口径 ×1.3，独立相乘 ×1.32 待实测排除）
+  const weakElementBonusPct = weakElement ? mastery.weakElementDamagePct : 0;
+  const advantage = weakElement ? (120 + weakElementBonusPct) / 100 : 1;
   const outsideParts = [];
-  if (warElemental) outsideParts.push({ name: '属性克制转换', multiplier: 1.2, source: equipmentSource('属性克制转换') });
+  if (weakElement) {
+    const bonusNote = weakElementBonusPct ? ` · EX专精“对弱点属性敌人伤害+${weakElementBonusPct}%”同区相加（待实测校准）` : '';
+    outsideParts.push({
+      name: warElemental ? '属性克制转换' : '弱点属性（有利属性）',
+      multiplier: advantage,
+      source: `${warElemental ? equipmentSource('属性克制转换') : '技能页“敌人为弱点属性”'}${bonusNote}`
+    });
+  }
   if (external !== 1) outsideParts.push({ name: '手动上限外乘区', multiplier: Math.max(0, external), source: '技能页“上限外乘区”' });
-  const outside = (warElemental ? 1.2 : 1) * Math.max(0, external);
+  const outside = advantage * Math.max(0, external);
   return { additivePct: pct, parts, outside, outsideParts, tags, applied };
 }
 
 export function calculateBuild(config, context = {}) {
   const aggregated = aggregateLevels(config), levels = aggregated.capped, synergy = countSynergy(config);
-  const mastery = summarizeMastery(config.masteryNodes, { ...context, synergy });
+  const mastery = summarizeMastery(config.masteryNodes, {
+    ...context, synergy,
+    weakElement: has(levels, '属性克制转换') || Boolean(context.weakElement)
+  });
   const direct = directModifiers(config);
   const hp = calculateHp({ levels, synergy, config, weapon: aggregated.weapon, mastery, direct });
   const crit = calculateCrit({ levels, config, weapon: aggregated.weapon, context, mastery, direct });
